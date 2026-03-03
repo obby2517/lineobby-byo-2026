@@ -1,109 +1,111 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>แบบฟอร์มข้อมูลผู้ใช้ LINE</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BYO Premium • ยืนยันข้อมูล LINE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>ข้อมูลผู้ใช้ LINE</h1>
-      <p>ระบบได้ดึงข้อมูลโปรไฟล์ของคุณจาก LINE ดังนี้</p>
-    </div>
-    
-    <div id="loading" class="loading">
-      <div class="loading-spinner"></div>
-      <p>กำลังดึงข้อมูลโปรไฟล์... กรุณารอสักครู่</p>
-    </div>
-    
-    <div id="profile" style="display: none;">
-      <div class="profile-section">
-        <img id="profile-preview" class="profile-preview" src="https://lh5.googleusercontent.com/d/1CoEFC5R0ykCrtkx_3lo94SkZESrzfHGy" alt="รูปโปรไฟล์">
-        <div class="profile-info">
-          <div class="info-row">
-            <div class="info-label">ชื่อผู้ใช้:</div>
-            <div class="info-value" id="display-name"></div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">User ID:</div>
-            <div class="info-value" id="user-id"></div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">สถานะ:</div>
-            <div class="info-value status-message" id="status-message"></div>
-          </div>
+<body class="flex items-center justify-center min-h-screen bg-gray-950">
+    <div class="relative w-full max-w-md h-screen sm:h-[850px] sm:max-h-screen byo-app-bg overflow-y-auto sm:rounded-[2rem] sm:border-[8px] border-gray-900 shadow-2xl flex flex-col">
+        
+        <!-- Header -->
+        <div class="sticky top-0 z-40 glass-header px-5 py-4 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-3">
+                <img src="https://lh5.googleusercontent.com/d/1cp6gJt9wejs-86g8DKlqExXHU002yTxP" alt="BYO Logo" class="w-9 h-9 rounded-full border border-white/30 object-cover">
+                <span class="text-base font-bold text-white tracking-widest uppercase">Be Your Own Coffee & Bar</span>
+            </div>
+            <span class="text-[10px] font-bold text-white bg-red-500 px-3 py-1 rounded-full animate-pulse">LINE LIFF</span>
         </div>
-      </div>
-      
-      <div id="form-section">
-        <h2>ข้อมูลเพิ่มเติม</h2>
-        <form id="additional-form">
-          <div class="info-row">
-            <div class="info-label">อีเมล:</div>
-            <div class="info-value">
-              <input type="email" id="email" name="email" placeholder="กรุณากรอกอีเมลของคุณ" required>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">เบอร์โทรศัพท์:</div>
-            <div class="info-value">
-              <input type="tel" id="phone" name="phone" placeholder="กรุณากรอกเบอร์โทรศัพท์" required>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">ข้อความเพิ่มเติม:</div>
-            <div class="info-value">
-              <textarea id="comments" name="comments" rows="3" placeholder="ข้อความที่คุณต้องการแจ้งเรา"></textarea>
-            </div>
-          </div>
-          
-          <div id="line-email-info" class="line-email-info">
-            <div class="line-email-header">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#06C755">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-3H9V7h2v6z"/>
-              </svg>
-              <span>อีเมลจาก LINE</span>
-            </div>
-            <div id="line-email-value" class="line-email-value"></div>
-            <div class="line-email-note">ระบบได้ดึงอีเมลจากบัญชี LINE ของคุณโดยอัตโนมัติ</div>
-          </div>
-          
-          <div id="line-phone-info" class="line-email-info" style="margin-top: 15px;">
-            <div class="line-email-header">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#06C755">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-3H9V7h2v6z"/>
-              </svg>
-              <span>เบอร์โทรศัพท์จาก LINE</span>
-            </div>
-            <div id="line-phone-value" class="line-email-value"></div>
-            <div class="line-email-note">ระบบได้ดึงเบอร์โทรศัพท์จากบัญชี LINE ของคุณโดยอัตโนมัติ</div>
-          </div>
-          
-          <div style="text-align: center; margin-top: 30px;">
-            <button type="submit">
-              <span style="display: inline-block; margin-right: 8px;">✓</span> ส่งข้อมูล
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    
-    <div class="footer">
-      <p>ระบบนี้ใช้เทคโนโลยี LIFF ของ LINE สำหรับดึงข้อมูลโปรไฟล์</p>
-    </div>
-  </div>
 
-  <div id="profile-modal" class="modal">
-    <div class="modal-content">
-      <img id="modal-profile-image" class="modal-image" src="" alt="รูปโปรไฟล์ขนาดใหญ่">
-      <span class="modal-close">&times;</span>
-    </div>
-  </div>
+        <div class="p-5 flex-1 flex flex-col">
+            <!-- Welcome -->
+            <div class="mb-8 bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-sm relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-[#E8B973]/10 rounded-full blur-3xl"></div>
+                <h1 class="text-3xl font-bold byo-text-gold flex items-center gap-3">
+                    <i data-lucide="user-check" class="w-9 h-9"></i>
+                    ยืนยันข้อมูลสมาชิก
+                </h1>
+                <p class="text-white/80 mt-1 text-sm">กรอกเบอร์โทรศัพท์เพื่อรับสิทธิ์พรีเมียม BYO</p>
+            </div>
 
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-  <script src="script.js"></script>
+            <!-- Loading -->
+            <div id="loading" class="flex-1 flex flex-col items-center justify-center">
+                <i data-lucide="loader-2" class="w-16 h-16 animate-spin byo-text-gold mb-6"></i>
+                <p class="text-white/70">กำลังดึงข้อมูลโปรไฟล์ LINE...</p>
+            </div>
+
+            <!-- Profile + Form -->
+            <div id="profile" class="hidden flex-1 flex flex-col">
+                <!-- Profile Card -->
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 text-center">
+                    <img id="profile-preview" onclick="showProfileModal()" 
+                         class="mx-auto w-32 h-32 rounded-3xl object-cover border-[6px] border-[#E8B973] shadow-2xl cursor-pointer transition hover:scale-105" 
+                         alt="รูปโปรไฟล์">
+                    <h2 id="display-name" class="mt-6 text-3xl font-bold text-white"></h2>
+                    <p id="status-message" class="text-[#E8B973] italic mt-2 text-base"></p>
+                    <div class="mt-8 text-xs font-mono text-white/60 flex items-center justify-center gap-2">
+                        <i data-lucide="fingerprint" class="w-4 h-4"></i>
+                        <span id="user-id"></span>
+                    </div>
+                </div>
+
+                <!-- Phone Form -->
+                <div class="mt-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8">
+                    <h3 class="text-white font-bold text-xl mb-6 flex items-center gap-3">
+                        <i data-lucide="phone-call" class="w-7 h-7 text-[#E8B973]"></i>
+                        เบอร์โทรศัพท์
+                    </h3>
+
+                    <!-- LINE Phone Info -->
+                    <div id="line-phone-info" class="hidden p-5 bg-[#E8B973]/10 border border-[#E8B973]/30 rounded-2xl mb-6">
+                        <div class="flex gap-3">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-[#E8B973] mt-1"></i>
+                            <div>
+                                <div class="text-[#E8B973] font-bold text-sm">ดึงจากบัญชี LINE อัตโนมัติ</div>
+                                <div id="line-phone-value" class="text-white text-2xl font-semibold mt-1"></div>
+                                <div class="text-white/60 text-xs mt-1">คุณสามารถแก้ไขได้</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="additional-form">
+                        <input type="tel" id="phone" name="phone" 
+                               class="w-full bg-white/5 border border-white/30 focus:border-[#E8B973] text-white placeholder:text-white/50 rounded-3xl px-6 py-7 text-xl focus:outline-none transition"
+                               placeholder="0XX-XXX-XXXX" required>
+                        <p class="text-xs text-white/50 mt-4 text-center">* จำเป็นสำหรับการติดต่อและยืนยันสิทธิ์</p>
+                    </form>
+                </div>
+
+                <!-- Submit -->
+                <div class="mt-auto pt-10">
+                    <button onclick="submitForm()" id="submit-btn"
+                            class="w-full byo-bg-gold text-[#244439] font-bold text-xl py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 active:scale-95 transition">
+                        <i data-lucide="send-horizontal" class="w-6 h-6"></i>
+                        ส่งข้อมูลยืนยันสมาชิก
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center py-6 text-white/30 text-xs border-t border-white/10">
+            Powered by LINE LIFF • BYO Premium
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 bg-black/95 hidden flex items-center justify-center z-[9999] px-6">
+        <div class="relative max-w-xs w-full">
+            <img id="modal-profile-image" class="w-full rounded-3xl border-8 border-[#E8B973] shadow-2xl" alt="">
+            <button onclick="hideProfileModal()" 
+                    class="absolute -top-4 -right-4 bg-white text-black w-11 h-11 rounded-2xl flex items-center justify-center text-3xl font-light shadow-xl">×</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
