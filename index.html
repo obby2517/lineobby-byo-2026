@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบฟอร์มข้อมูลผู้ใช้ LINE</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ข้อมูลผู้ใช้ LINE</h1>
+      <p>ระบบได้ดึงข้อมูลโปรไฟล์ของคุณจาก LINE ดังนี้</p>
+    </div>
+    
+    <div id="loading" class="loading">
+      <div class="loading-spinner"></div>
+      <p>กำลังดึงข้อมูลโปรไฟล์... กรุณารอสักครู่</p>
+    </div>
+    
+    <div id="profile" style="display: none;">
+      <div class="profile-section">
+        <img id="profile-preview" class="profile-preview" src="https://lh5.googleusercontent.com/d/1CoEFC5R0ykCrtkx_3lo94SkZESrzfHGy" alt="รูปโปรไฟล์">
+        <div class="profile-info">
+          <div class="info-row">
+            <div class="info-label">ชื่อผู้ใช้:</div>
+            <div class="info-value" id="display-name"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">User ID:</div>
+            <div class="info-value" id="user-id"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">สถานะ:</div>
+            <div class="info-value status-message" id="status-message"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="form-section">
+        <h2>ข้อมูลเพิ่มเติม</h2>
+        <form id="additional-form">
+          <div class="info-row">
+            <div class="info-label">อีเมล:</div>
+            <div class="info-value">
+              <input type="email" id="email" name="email" placeholder="กรุณากรอกอีเมลของคุณ" required>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">เบอร์โทรศัพท์:</div>
+            <div class="info-value">
+              <input type="tel" id="phone" name="phone" placeholder="กรุณากรอกเบอร์โทรศัพท์" required>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">ข้อความเพิ่มเติม:</div>
+            <div class="info-value">
+              <textarea id="comments" name="comments" rows="3" placeholder="ข้อความที่คุณต้องการแจ้งเรา"></textarea>
+            </div>
+          </div>
+          
+          <div id="line-email-info" class="line-email-info">
+            <div class="line-email-header">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#06C755">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-3H9V7h2v6z"/>
+              </svg>
+              <span>อีเมลจาก LINE</span>
+            </div>
+            <div id="line-email-value" class="line-email-value"></div>
+            <div class="line-email-note">ระบบได้ดึงอีเมลจากบัญชี LINE ของคุณโดยอัตโนมัติ</div>
+          </div>
+          
+          <div id="line-phone-info" class="line-email-info" style="margin-top: 15px;">
+            <div class="line-email-header">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#06C755">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-3H9V7h2v6z"/>
+              </svg>
+              <span>เบอร์โทรศัพท์จาก LINE</span>
+            </div>
+            <div id="line-phone-value" class="line-email-value"></div>
+            <div class="line-email-note">ระบบได้ดึงเบอร์โทรศัพท์จากบัญชี LINE ของคุณโดยอัตโนมัติ</div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 30px;">
+            <button type="submit">
+              <span style="display: inline-block; margin-right: 8px;">✓</span> ส่งข้อมูล
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>ระบบนี้ใช้เทคโนโลยี LIFF ของ LINE สำหรับดึงข้อมูลโปรไฟล์</p>
+    </div>
+  </div>
+
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">
+      <img id="modal-profile-image" class="modal-image" src="" alt="รูปโปรไฟล์ขนาดใหญ่">
+      <span class="modal-close">&times;</span>
+    </div>
+  </div>
+
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
